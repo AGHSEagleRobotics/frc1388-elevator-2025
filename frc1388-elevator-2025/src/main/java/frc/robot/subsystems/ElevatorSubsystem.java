@@ -10,9 +10,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants.ElevatorSubsystemConstants;;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -20,6 +23,38 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final DigitalInput m_upperLimitSwitch;
   private final SparkMax m_elevatorMotor1;
   private final SparkMax m_elevatorMotor2;
+
+  //Encoder
+  pri
+
+  //PID
+  private double m_targetPosition = 0;
+
+  /* PID Controller */
+  private final PIDController m_elevatorController =
+  new PIDController(
+    ElevatorSubsystemConstants.kElevatorPIDP,
+    ElevatorSubsystemConstants.kElevatorPIDI,
+    ElevatorSubsystemConstants.kElevatorPIDD
+    );
+
+  /* Elevator Setpoints */
+  public enum ElevatorSetPoints {
+    //* in inches */
+    BOTTOM(0),
+    MIDDLE(23),
+    TOP(46);
+
+    private double setpoint;
+
+    private ElevatorSetPoints(double setpoint) {
+      this.setpoint = setpoint;
+    }
+
+    public double getSetPoint() {
+      return this.setpoint;
+    }
+  }
 
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem(DigitalInput bottomLimitSwitch, DigitalInput upperLimitSwitch, SparkMax elevatorMotor1,
@@ -66,6 +101,23 @@ public class ElevatorSubsystem extends SubsystemBase {
   // if at top limit
 
   // then if power is postivie set power to zero
+
+  /* Encoder Methods */
+  private double getMotorEncoderVelocity() {
+    return m_elevatorEncoder.getVelocity() * ElevatorSubsystemConstants.kDistancePerVelocityScale; 
+  }
+
+  /* PID METHODS */
+
+  //set position
+  public void setTargetPosition(double position) {
+    m_targetPosition = position;
+    m_elevatorController.setSetpoint(position);
+  }
+
+  public void setSetpointToCurrentPosition() {
+    double scaleFactor = MathUtil.clamp(ElevatorSubsystemConstants.kElevatorOffsetAccountSpeed * getMotorEncoderVelocity(), -1, 1)
+  }
 
   public void CommandXboxController() {
   }

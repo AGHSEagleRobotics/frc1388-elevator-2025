@@ -16,4 +16,16 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class ElevatorSubsystemConstants {
+    public static final double kElevatorPIDP = 0.085;
+    public static final double kElevatorPIDI = 0.0;
+    public static final double kElevatorPIDD = 0.0;
+
+    public static final double kCarriageInchesPerMotorRotation;
+    public static final double kSecondsPerMinute = 60;
+
+    public static final double kDistancePerVelocityScale = kCarriageInchesPerMotorRotation / kSecondsPerMinute;
+    public static final double kElevatorOffsetAccountSpeed = 0.5;
+  }
 }
