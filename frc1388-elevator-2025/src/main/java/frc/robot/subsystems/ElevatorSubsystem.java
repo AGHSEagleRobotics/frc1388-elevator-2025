@@ -25,7 +25,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax m_elevatorMotor2;
 
   //Encoder
-  pri
+  // pri
 
   //PID
   private double m_targetPosition = 0;
@@ -116,7 +116,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setSetpointToCurrentPosition() {
-    double scaleFactor = MathUtil.clamp(ElevatorSubsystemConstants.kElevatorOffsetAccountSpeed * getMotorEncoderVelocity(), -1, 1)
+    double scaleFactor = MathUtil.clamp(ElevatorSubsystemConstants.kElevatorOffsetAccountSpeed * getMotorEncoderVelocity(), -1, 1);
   }
 
   public void CommandXboxController() {

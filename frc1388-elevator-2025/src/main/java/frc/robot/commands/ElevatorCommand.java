@@ -27,9 +27,9 @@ public class ElevatorCommand extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
    m_elevatorSubsystem = elevatorSubsystem;
    m_Yvalue = Yvalue;
-   m_a = aInput;
-   m_b = bInput;
-   m_x = xInput;
+  //  m_a = aInput;
+  //  m_b = bInput;
+  //  m_x = xInput;
    addRequirements(m_elevatorSubsystem);
   }
 @Override

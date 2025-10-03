@@ -22,10 +22,19 @@ public final class Constants {
     public static final double kElevatorPIDI = 0.0;
     public static final double kElevatorPIDD = 0.0;
 
-    public static final double kCarriageInchesPerMotorRotation;
+    public static final double kCarriageInchesPerMotorRotation = 1;
     public static final double kSecondsPerMinute = 60;
 
     public static final double kDistancePerVelocityScale = kCarriageInchesPerMotorRotation / kSecondsPerMinute;
     public static final double kElevatorOffsetAccountSpeed = 0.5;
+  
+  }
+  public static class LEDConstants {
+    public static final double RAINBOW = -0.99;
+    public static final double RED_STROBE = -0.11;
+    public static final double BLUE_STROBE = -0.09;
+    public static final double RED_SOLID = 0.61;
+    public static final double BLUE_SOLID = 0.87;
+    public static final int CANDLE_CANID = 42;
   }
 }
