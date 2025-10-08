@@ -104,7 +104,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   /* Encoder Methods */
   private double getMotorEncoderVelocity() {
-    return m_elevatorEncoder.getVelocity() * ElevatorSubsystemConstants.kDistancePerVelocityScale; 
+    // return m_elevatorEncoder.getVelocity() * ElevatorSubsystemConstants.kDistancePerVelocityScale; 
+    return 0;
   }
 
   /* PID METHODS */

@@ -23,13 +23,13 @@ public class ElevatorCommand extends Command {
   public static final double DEADBAND = 0.1;
 
   /** Creates a new elevator. */
-  public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, Supplier <Double> Yvalue, Supplier<Boolean> m_a, Supplier<Boolean> m_b, Supplier<Boolean> m_x) {
+  public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, Supplier <Double> Yvalue, Supplier<Boolean> aInput, Supplier<Boolean> bInput, Supplier<Boolean> xInput) {
     // Use addRequirements() here to declare subsystem dependencies.
    m_elevatorSubsystem = elevatorSubsystem;
    m_Yvalue = Yvalue;
-  //  m_a = aInput;
-  //  m_b = bInput;
-  //  m_x = xInput;
+   m_a = aInput;
+   m_b = bInput;
+   m_x = xInput;
    addRequirements(m_elevatorSubsystem);
   }
 @Override
@@ -41,12 +41,12 @@ public void execute() {
   double Yvalue = -m_Yvalue.get(); // invert y value so that up is positive
   Yvalue = MathUtil.applyDeadband(Yvalue, DEADBAND);
  m_elevatorSubsystem.setPower(POWER_LIMIT*Yvalue);
- double aInput = m_a.get();
- m_elevatorSubsystem.setSetpoint(ElevatorSetPoints.LEVEL1);
- double bInput = m_b.get();
- m_elevatorSubsystem.setSetpoint(ElevatorSetPoints.LEVEL2);
- double xInput = m_x.get();
- m_elevatorSubsystem.setSetpoint(ElevatorSetPoints.LEVEL3);
+//  boolean aInput = m_a.get();
+//  m_elevatorSubsystem.setSetpoint(ElevatorSetPoints.LEVEL1);
+//  boolean bInput = m_b.get();
+//  m_elevatorSubsystem.setSetpoint(ElevatorSetPoints.LEVEL2);
+//  boolean xInput = m_x.get();
+//  m_elevatorSubsystem.setSetpoint(ElevatorSetPoints.LEVEL3);
 
 }
 

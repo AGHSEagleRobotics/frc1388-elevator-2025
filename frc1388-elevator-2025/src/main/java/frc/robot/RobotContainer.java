@@ -7,6 +7,9 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
+
+import com.ctre.phoenix6.hardware.CANdle;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -24,13 +27,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's actuators and sensors are included here
-  private final DigitalInput m_bottomLimitSwitch = new DigitalInput(1);
-  private final DigitalInput m_upperLimitSwitch = new DigitalInput(0);
-  private final SparkMax m_elevatorMotor1 = new SparkMax(8, MotorType.kBrushless);
-  private final SparkMax m_elevatorMotor2 = new SparkMax(7, MotorType.kBrushless);
+  // private final DigitalInput m_bottomLimitSwitch = new DigitalInput(1);
+  // private final DigitalInput m_upperLimitSwitch = new DigitalInput(0);
+  // private final SparkMax m_elevatorMotor1 = new SparkMax(8, MotorType.kBrushless);
+  // private final SparkMax m_elevatorMotor2 = new SparkMax(7, MotorType.kBrushless);
   // This includes the elevator subsystems
-private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem(m_bottomLimitSwitch, m_upperLimitSwitch, m_elevatorMotor1, m_elevatorMotor2);
+// private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem(m_bottomLimitSwitch, m_upperLimitSwitch, m_elevatorMotor1, m_elevatorMotor2);
 
+  private final CANdle m_candle;
+  private final LEDSubsystem m_ledSubsystem;
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -39,6 +44,13 @@ private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem(m_bo
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    // create the physical devices used by the LEDSubsystem
+    m_candle = new CANdle(42);
+    // create the LEDSubsystem
+    m_ledSubsystem = new LEDSubsystem(m_candle);
+
+
     // Configure the trigger bindings
     configureBindings();
   }
@@ -54,9 +66,9 @@ private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem(m_bo
    */
   private void configureBindings() {
 //Alejandro was here
-    m_elevatorSubsystem.setDefaultCommand(
-      new ElevatorCommand(m_elevatorSubsystem, () -> m_driverController.getRightY())
-    );
+    // m_elevatorSubsystem.setDefaultCommand(
+    //   new ElevatorCommand(m_elevatorSubsystem, () -> m_driverController.getRightY())
+    // );
   }
   
 
