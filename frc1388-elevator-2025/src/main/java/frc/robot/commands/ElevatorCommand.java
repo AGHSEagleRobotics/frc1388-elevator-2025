@@ -13,33 +13,36 @@ import frc.robot.subsystems.ElevatorSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorCommand extends Command {
 
-  private final ElevatorSubsystem m_elevatorSubsystem;
-  private final Supplier<Double> m_Yvalue;
-  private final Double POWER_LIMIT = 0.4;
+  private ElevatorSubsystem m_elevatorSubsystem;
+  private Supplier<Double> m_rightY;
+
   public static final double DEADBAND = 0.1;
+  public static final double POWERLIMIT = 0.2;
 
-  /** Creates a new elevator. */
-  public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, Supplier <Double> Yvalue ) {
+  /** Creates a new ElevatorCommand. */
+  public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, Supplier<Double> rightY) {
+    m_elevatorSubsystem = elevatorSubsystem;
+    m_rightY = rightY;
     // Use addRequirements() here to declare subsystem dependencies.
-   m_elevatorSubsystem = elevatorSubsystem;
-   m_Yvalue = Yvalue;
-   addRequirements(m_elevatorSubsystem);
+    addRequirements(m_elevatorSubsystem);
   }
-@Override
-public void initialize(){
 
-}
-@Override
-public void execute() {
-  double Yvalue = -m_Yvalue.get(); // invert y value so that up is positive
-  Yvalue = MathUtil.applyDeadband(Yvalue, DEADBAND);
- m_elevatorSubsystem.setPower(POWER_LIMIT*Yvalue); 
-}
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    double rightY = m_rightY.get();
+    rightY = MathUtil.applyDeadband(rightY, DEADBAND);
+    m_elevatorSubsystem.setPower(rightY * POWERLIMIT);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

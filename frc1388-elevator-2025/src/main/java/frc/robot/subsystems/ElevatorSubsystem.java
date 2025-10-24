@@ -7,67 +7,51 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorSubsystem extends SubsystemBase {
-
-  private final DigitalInput m_bottomLimitSwitch;
-  private final DigitalInput m_upperLimitSwitch;
-  private final SparkMax m_elevatorMotor1;
-  private final SparkMax m_elevatorMotor2;
-
   /** Creates a new ElevatorSubsystem. */
-  public ElevatorSubsystem(DigitalInput bottomLimitSwitch, DigitalInput upperLimitSwitch, SparkMax elevatorMotor1,
-      SparkMax elevatorMotor2) {
+  private SparkMax m_motor1;
+  private SparkMax m_motor2;
 
-    m_bottomLimitSwitch = bottomLimitSwitch;
-    m_upperLimitSwitch = upperLimitSwitch;
-    m_elevatorMotor1 = elevatorMotor1;
-    m_elevatorMotor2 = elevatorMotor2;
+  private DigitalInput m_bottomLimitSwitch;
+  private DigitalInput m_topLimitSwitch; 
+  
+  
+  public ElevatorSubsystem(SparkMax motor1, SparkMax motor2, DigitalInput bottomLimitSwitch, DigitalInput topLimitSwitch) {
+    m_motor1 = motor1;
+    m_motor2 = motor2;
     SparkMaxConfig config = new SparkMaxConfig();
     config.idleMode(IdleMode.kBrake);
-    ;
-    m_elevatorMotor1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    m_elevatorMotor2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    // Removed redundant setIdleMode call as it is not defined for SparkMax
+    config.inverted(true);
+    m_motor1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_motor2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    m_bottomLimitSwitch = bottomLimitSwitch;
+    m_topLimitSwitch = topLimitSwitch;
   }
 
-  public void setPower(double power){ 
-    if (isAtBottomLimit() && power < 0) {
+  public void setPower(double power) {
+    if(getBottomLimitSwitch() == true && power < 0) {
       power = 0;
     }
-
-    if (isAtUpperLimit() && power > 0) {
+    if (getTopLimitSwitch() == true && power > 0) {
       power = 0;
     }
-
-
-    m_elevatorMotor1.set(power);
-    m_elevatorMotor2.set(power);
+    m_motor1.set(power);
+    m_motor2.set(power);
   }
 
-    private boolean isAtBottomLimit(){
-      return m_bottomLimitSwitch.get();
-    }
-    private boolean isAtUpperLimit(){
-      return m_upperLimitSwitch.get();
-    }
-    
+  public boolean getBottomLimitSwitch() {
+    return m_bottomLimitSwitch.get();
+  }
 
-  // if at botttom limit
-
-  // then if power is negative set power to zero
-
-  // if at top limit
-
-  // then if power is postivie set power to zero
-
-  public void CommandXboxController() {
+  public boolean getTopLimitSwitch() {
+    return m_topLimitSwitch.get();
   }
 
   @Override
